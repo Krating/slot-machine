@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FB</title>
+</head>
+<body>
+	<div id="status"></div>
+	<div id="profile"></div>
+	<button onclick="login()" id="login">Login</button>
+	<button onclick="logout()" id="logout">Logout</button>
+	<button onclick="start()" id="start">Start</button>
+
+<script src="/socket.io/socket.io.js"></script>
+	<script>
+	var socket = io.connect('http://localhost:8081');
+
+		window.fbAsyncInit = function() {
+	    FB.init({
+	      appId      : '235734090227419',
+	      xfbml      : true,
+	      version    : 'v2.8'
+	    });
+
+	    FB.login(function(response){
+		  	if (response.status === 'connected') {
+		  		document.getElementById('status').innerHTML = "We are Connected";
+		  		document.getElementById('login').style.visibility = "hidden";
+		  		FB.api('/me','GET',{fields: 'id,name,picture.width(150).height(150)'}, function(response) {
+			  		
+			  		socket.emit('input', {
+						id:response.id,
+						name:response.name,
+						picture:response.picture.data.url
+					});
+					
+					socket.on('output',function(data){
+						console.log(data);
+						document.getElementById('profile').innerHTML = data[0].id;
+					});
+				});
+		  	} else if (response.status === 'not_authorized') {
+		  		document.getElementById('status').innerHTML = "We are Not Connected";
+		  	} else {
+		  		document.getElementById('status').innerHTML = "We are Not Connected";
+		  	}
+	  	},{scope: 'publish_actions'});
+
+	  };
+	  console.log('hello');
+	  
+
+
+
+	  (function(d, s, id){
+	     var js, fjs = d.getElementsByTagName(s)[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement(s); js.id = id;
+	     js.src = "//connect.facebook.net/en_US/sdk.js";
+	     fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
+
+	  function login() {
+	  	FB.login(function(response){
+	  		if(response.status === 'connected') {
+	  			document.getElementById('status').innerHTML = 'We are connected';
+	  			FB.api('/me','GET',{fields: 'id,name,picture.width(150).height(150)'}, function(response) {
+	  			// console.log(response);
+	  			
+	  			//send data to serve
+	  			socket.emit('input', {
+							id:response.id,
+							name:response.name,
+							picture:response.picture.data.url
+						});
+
+	  			//data form server
+	  			socket.on('output',function(data){
+						document.getElementById('profile').innerHTML = data[0].id;
+					});
+
+	  			});
+	  		}
+	  		else if (response.status === 'not_authorized') {
+	  			document.getElementById('status').innerHTML = 'We are not login';
+	  		}
+	  		else {
+	  			document.getElementById('status').innerHTML = 'We are not login';
+	  		}
+	  	},{scope: 'publish_actions'});
+	  }
+
+	  function logout(){
+	  	FB.logout(function(response) {
+			  console.log('logout');
+			  // location.reload();
+			  document.getElementById('login').style.visibility = "visible";
+			  socket.emit('logout', {
+				id:"",
+				name:"สวัสดี",
+				picture:"http://upic.me/i/mq/0avatar.jpg"
+			});
+		});
+	  }
+
+	  // function start() {
+	  // 	var num1 = Math.floor((Math.random() * 3) + 1);
+	  // 	var num2 = Math.floor((Math.random() * 3) + 1);
+	  // 	var num3 = Math.floor((Math.random() * 3) + 1);
+	  // 	var arraynum = [num1,num2,num3];
+	  // 	console.log(arraynum);
+	  // 	socket.emit('random', {arraynum:arraynum});
+
+	  // }
+
+	</script>
+
+</body>
+</html>
+<script>
+	function start(){
+	  	// console.log('start');
+	  	socket.emit('getdata_rand');
+	  	// console.log('emit');
+	  	socket.once('data_rand',function(data){
+	  		
+	  		var rand = Math.floor((Math.random() * 100) + 1);
+	  		console.log(rand);
+
+	  		for (var i = 0; i < data.length; i++) {
+	  			if (data[i].chance>=rand && data[i].num_reward>0) {
+		  			console.log(data[i].chance);
+		  			console.log('data'+i);
+		  			console.log(data[i].num_reward-1);
+		  			socket.emit('num_reward',data[i]);
+	  			}
+	  		}
+
+	  		// if (data[0].chance>=rand && data[0].num_reward>0) {
+	  		// 	console.log(data[0].chance);
+	  		// 	console.log('data1');
+	  		// } if (data[1].chance>=rand && data[1].num_reward>0) {
+	  		// 	console.log(data[1].chance);
+	  		// 	console.log('data2');
+	  		// }
+	  	});
+	  }
+</script>
