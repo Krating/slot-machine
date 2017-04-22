@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Setting</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+<div class="container">
+		<h2>Setting</h2>
+		<a class="btn btn-primary" href="/setting/create">Add</a>
+		<br></br>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>No.</th>
+					<th>Image</th>
+					<th>Chance(%)</th>
+					<th>Number of Reward</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+			<% data.forEach(function(data,index) { %>
+				<tr>
+					<td><%=++index%></td>
+					<td>
+						<img src="/public/uploads/<%=data.image%>" height="150" width="150">
+					</td>
+					<td><%=data.chance%></td>
+					<td><%=data.num_reward%></td>
+					<td>
+						<form action="http://localhost:8081/store_delete" method="GET">
+							<input type="hidden" name="_id" value="<%=data._id%>">
+							<button class="btn btn-danger">Delete</button>
+						</form>
+					</td>
+				</tr>
+			<% }); %>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+
+	</script>
+</body>
+</html>

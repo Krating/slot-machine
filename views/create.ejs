@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Setting > Add</h2>
+		<form action="/store_setting" method="POST" enctype="multipart/form-data">
+			<div class="form-group">
+				<label for="image">Image</label>
+				<input type="file" name="image" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="chance">Chance</label>
+				<input type="number" name="chance" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="num_reward">Number of Reward</label>
+				<input type="number" name="num_reward" class="form-control">
+			</div>
+			<div class="form-group">
+				<button class="btn btn-success">Submit</button>
+			</div>
+		</form>
+	</div> 
+</body>
+</html>
