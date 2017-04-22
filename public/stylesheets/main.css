@@ -1,0 +1,50 @@
+.slot-main	{
+	background-color: red;
+	width: 550px;
+	height: 300px;
+}
+.slot-main > .slot-header {
+	background-color: green;
+	width: 550px;
+	height: 75px;
+}
+.slot-main > .slot-content {
+	background-color: green;
+	width: 550px;
+	height: 150px;
+}
+.slot-main > .slot-content >.slot-content-left {
+	background-color: pink;
+	width: 50px;
+	height: 150px;
+	float: left;
+}
+.slot-main > .slot-content > .reel0 {
+	background-color: green;
+	width: 150px;
+	height: 150px;
+	float: left;
+}
+.slot-main > .slot-content > .reel1 {
+	background-color: pink;
+	width: 150px;
+	height: 150px;
+	float: left;
+}
+.slot-main > .slot-content > .reel2 {
+	background-color: orange;
+	width: 150px;
+	height: 150px;
+	float: left;
+}
+.slot-main > .slot-content >.slot-content-right {
+	background-color: pink;
+	width: 50px;
+	height: 150px;
+	float: right;
+}
+.slot-main > .slot-footer {
+	background-color: black;
+	width: 550px;
+	height: 75px;
+}
