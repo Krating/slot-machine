@@ -17,7 +17,6 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage })
 var cookieParser = require('cookie-parser');
-// var exphbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
