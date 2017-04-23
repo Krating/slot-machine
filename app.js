@@ -21,7 +21,7 @@ app.set('view engine','ejs');
 
 app.use(express.static(__dirname + ''));
 
-server.listen(8081);
+server.listen(process.env.PORT || 61018, function()
 
 //read file view
 app.get('/',function(req,res){
