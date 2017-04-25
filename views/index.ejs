@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="public/stylesheets/main.css">
-	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
+	<link rel="stylesheet" type="text/css" href="public/css/main.css">
+	<script src="http://slmch.herokuapp/socket.io/socket.io.js"></script>
 	
 	<title>Desktop</title>
 </head>
@@ -23,7 +23,7 @@
 
 <script>
 
-	var socket = io.connect('http://localhost:8081');
+	var socket = io.connect('http://slmch.herokuapp');
 
 	if (socket !== undefined) {
 		socket.on('output',function(data){

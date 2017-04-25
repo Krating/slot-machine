@@ -7,7 +7,7 @@ var User = require('../models/user');
 
 // Register
 router.get('/register', function(req, res){
-	res.render('register', { message: req.flash('signupMessage') });
+	res.render('register');
 });
 
 // Login
@@ -50,9 +50,8 @@ router.post('/register', function(req, res){
 			console.log(user);
 		});
 
-		req.flash('success_msg', 'You are registered and can now login');
 
-		res.redirect('/users/login');
+		res.redirect('/users/login'});
 	}
 });
 
