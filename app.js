@@ -26,7 +26,7 @@ var mongoose = require('mongoose');
 var express = require('express');
 var router = express.Router();
 
-mongoose.connect('mongodb://localhost/slot-machine');
+mongoose.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine');
 var db = mongoose.connection;
 
 var routes = require('./routes/index');
@@ -38,7 +38,7 @@ app.use(express.static(__dirname + ''));
 
 app.set('port', (process.env.PORT || 8081));
 
-app.listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
 });
 
@@ -61,6 +61,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Connect Flash
+app.use(flash());
+
 // Express Validator
 app.use(expressValidator({
   errorFormatter: function(param, msg, value) {
@@ -79,8 +82,6 @@ app.use(expressValidator({
   }
 }));
 
-// Connect Flash
-app.use(flash());
 
 // Global Vars
 app.use(function (req, res, next) {
@@ -92,11 +93,13 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', routes);
+app.use('/home', routes);
+app.use('/setting', routes);
 app.use('/users', users);
 
 //read file view
 app.get('/',function(req,res){
-	res.render('setting');
+	res.render('index');
 });
 app.get('/app',function(req,res){
 	res.render('mobile');
@@ -159,16 +162,22 @@ mongo.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine', fun
 			res.redirect("/setting");
 		});
 	});
-	
-	
-	app.get('/setting',function(req,res){
+
+	app.get('/setting', ensureAuthenticated, function(req,res){
 		setting.find().limit(100).toArray(function(err,item){
 			if (err) throw err;
 				res.render('setting',{data:item});
 		});
 	});
+	function ensureAuthenticated(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	} else {
+		// req.flash('error_msg','You are not logged in');
+		res.redirect('/users/login');
+	}
+}
 	
-
 	app.get('/store_delete',function(req,res){
 		setting.remove({ "_id" : ObjectId(req.query._id) }, function(err, result) {
 			console.log('removed');

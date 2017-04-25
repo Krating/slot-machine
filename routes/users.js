@@ -7,7 +7,7 @@ var User = require('../models/user');
 
 // Register
 router.get('/register', function(req, res){
-	res.render('register');
+	res.render('register', { message: req.flash('signupMessage') });
 });
 
 // Login
@@ -57,12 +57,12 @@ router.post('/register', function(req, res){
 });
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-   User.getUserByUsername(username, function(err, user){
-   	if(err) throw err;
-   	if(!user){
-   		return done(null, false, {message: 'Unknown User'});
-   	}
+  	function(username, password, done) {
+   	User.getUserByUsername(username, function(err, user){
+   		if(err) throw err;
+   		if(!user){
+   			return done(null, false, {message: 'Unknown User'});
+   		}
 
    	User.comparePassword(password, user.password, function(err, isMatch){
    		if(err) throw err;
@@ -72,24 +72,24 @@ passport.use(new LocalStrategy(
    			return done(null, false, {message: 'Invalid password'});
    		}
    	});
-   });
+   	});
   }));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  	done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  User.getUserById(id, function(err, user) {
-    done(err, user);
-  });
+  	User.getUserById(id, function(err, user) {
+    	done(err, user);
+  	});
 });
 
 router.post('/login',
-  passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login',failureFlash: true}),
-  function(req, res) {
-    res.redirect('/');
-  });
+  	passport.authenticate('local', {successRedirect:'/home', failureRedirect:'/users/login',failureFlash: true}),
+  	function(req, res) {
+    	res.redirect('/home');
+  	});
 
 router.get('/logout', function(req, res){
 	req.logout();

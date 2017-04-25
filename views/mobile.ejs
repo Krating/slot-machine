@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
+	
 	<title>FB</title>
 </head>
 <body>
@@ -10,7 +12,6 @@
 	<button onclick="logout()" id="logout">Logout</button>
 	<button onclick="start()" id="start">Start</button>
 
-<script src="/socket.io/socket.io.js"></script>
 	<script>
 	var socket = io.connect('http://localhost:8081');
 
