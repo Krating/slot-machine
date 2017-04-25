@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="public/css/main.css">
-	<script src="http://kratingandtumtum.herokuapp/socket.io/socket.io.js"></script>
+	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
 	
 	<title>Desktop</title>
 </head>
@@ -20,9 +20,10 @@
 	</div>
 	<div class="slot-footer"></div>
 </div> 
+
 <script>
 
-	var socket = io.connect('http://kratingandtumtum.herokuapp');
+	var socket = io.connect('http://localhost:8081');
 
 	if (socket !== undefined) {
 		socket.on('output',function(data){
