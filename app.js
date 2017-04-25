@@ -26,7 +26,7 @@ var mongoose = require('mongoose');
 var express = require('express');
 var router = express.Router();
 
-mongoose.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine');
+mongoose.connect('mongodb://localhost/slot-machine');
 var db = mongoose.connection;
 
 var routes = require('./routes/index');
@@ -61,9 +61,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Connect Flash
-app.use(flash());
-
 // Express Validator
 app.use(expressValidator({
   errorFormatter: function(param, msg, value) {
@@ -82,6 +79,8 @@ app.use(expressValidator({
   }
 }));
 
+// Connect Flash
+app.use(flash());
 
 // Global Vars
 app.use(function (req, res, next) {
@@ -162,7 +161,8 @@ mongo.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine', fun
 			res.redirect("/setting");
 		});
 	});
-
+	
+	
 	app.get('/setting', ensureAuthenticated, function(req,res){
 		setting.find().limit(100).toArray(function(err,item){
 			if (err) throw err;
@@ -173,11 +173,12 @@ mongo.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine', fun
 	if(req.isAuthenticated()){
 		return next();
 	} else {
-		// req.flash('error_msg','You are not logged in');
+		req.flash('error_msg','You are not logged in');
 		res.redirect('/users/login');
 	}
 }
 	
+
 	app.get('/store_delete',function(req,res){
 		setting.remove({ "_id" : ObjectId(req.query._id) }, function(err, result) {
 			console.log('removed');

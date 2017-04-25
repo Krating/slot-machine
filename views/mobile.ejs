@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
+	<script src="http://slmch.herokuapp/socket.io/socket.io.js"></script>
 	
 	<title>FB</title>
 </head>
@@ -13,7 +13,7 @@
 	<button onclick="start()" id="start">Start</button>
 
 	<script>
-	var socket = io.connect('http://localhost:8081');
+	var socket = io.connect('http://slmch.herokuapp');
 
 		window.fbAsyncInit = function() {
 	    FB.init({
