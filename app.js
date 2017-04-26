@@ -178,7 +178,6 @@ mongo.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine', fun
 	}
 }
 	
-
 	app.get('/store_delete',function(req,res){
 		setting.remove({ "_id" : ObjectId(req.query._id) }, function(err, result) {
 			console.log('removed');
