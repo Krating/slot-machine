@@ -7,15 +7,6 @@ var io = require('socket.io')(server);
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var path = require('path')
-var multer  = require('multer')
-var storage = multer.diskStorage({
-	destination: './public/uploads/',
- 	filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-  	},
-  	
-})
-var upload = multer({ storage: storage })
 var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
@@ -25,6 +16,15 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var express = require('express');
 var router = express.Router();
+var multer  = require('multer')
+var storage = multer.diskStorage({
+	destination: './public/uploads/',
+ 	filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+  	},
+  	
+})
+var upload = multer({ storage: storage })
 
 mongoose.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine');
 var db = mongoose.connection;
@@ -37,7 +37,9 @@ app.set('view engine','ejs');
 app.use(express.static(__dirname + ''));
 
 var port = process.env.PORT || 8080;
-server.listen(port);
+server.listen((port), function(){
+	console.log('Server Starting');
+	});
 
 // BodyParser Middleware
 app.use(bodyParser.json());
@@ -109,10 +111,9 @@ app.get('/setting/create',function(req,res){
 
 //connect mongodb
 mongo.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine', function (err,db){
-
 	if(err) throw err;
-	io.on('connection', function(socket){
 
+	io.on('connection', function(socket){
 		var col  = db.collection('event');
 
 		socket.on('input',function(data){
@@ -125,8 +126,6 @@ mongo.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine', fun
 			io.emit('output',[data]);
 		});
 
-		console.log('hello');
-
 		socket.on('logout', function(data) {
 			console.log(data);
 			io.emit('logout',[data]);
@@ -135,16 +134,19 @@ mongo.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine', fun
 		socket.on('getdata_rand',function(data){
 			setting.find().limit(100).toArray(function(err,res){
 				io.emit('data_rand',res);
-				console.log('yes');
 			});
 		});
 		socket.on('num_reward',function(data){
 			console.log(data.num_reward-1);
 			setting.updateOne({ "_id" : ObjectId(data._id)},{$set:{num_reward:data.num_reward-1}})
 		});
+		socket.on('result', function(data){
+			var result = data.result;
+			console.log(result);
+			io.emit('result2', result);
 
+		});
 	});
-
 
 	var setting  = db.collection('setting');
 

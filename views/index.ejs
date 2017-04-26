@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="public/css/main.css">
-	<script src="http://slmch.herokuapp.com/socket.io/socket.io.js"></script>
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
 	
 	<title>Desktop</title>
 </head>
@@ -22,7 +22,7 @@
 </div> 
 <script>
 
-	var socket = io.connect('http://slmch.herokuapp.com');
+	var socket = io.connect('http://localhost:8080');
 
 	if (socket !== undefined) {
 		socket.on('output',function(data){
@@ -46,19 +46,22 @@
 					console.log('1');
 					var link = 'http://www.suekayton.com/images/windows_7_logo.jpg';
 					document.getElementById('reel'+i).innerHTML = '<img src="'+ link +'" width="150" height="150">';
-				}//if
+				}
 				else if (data[i]=='2'){
 					console.log('2');
 					var link = 'http://www.yousephtanha.com/blog/wp-content/uploads/2011/10/Ea-sports-logo.jpg';
 					document.getElementById('reel'+i).innerHTML = '<img src="'+ link +'" width="150" height="150">';
-				}//else if
+				}
 				else if (data[i]=='3'){
 					console.log('3');
 					var link = 'http://anynewcar.com.au/wp-content/uploads/2012/06/volkswagen-logo-5.jpg';
 					document.getElementById('reel'+i).innerHTML = '<img src="'+ link +'" width="150" height="150">';
-				}//else if
-			}//for
+				}
+			}
+		});
 
+		socket.on('result2', function(data){
+				console.log(data);
 		});
 
 </script>
