@@ -51,7 +51,7 @@ router.post('/register', function(req, res){
 		});
 
 
-		res.redirect('/home'});
+		res.render('login'});
 	}
 });
 
@@ -85,9 +85,9 @@ passport.deserializeUser(function(id, done) {
 });
 
 router.post('/login',
-  	passport.authenticate('local', {successRedirect:'/home', failureRedirect:'/home',failureFlash: true}),
+  	passport.authenticate('local', {successRedirect:'/home', failureRedirect:'/users/login',failureFlash: true}),
   	function(req, res) {
-    	res.redirect('/home');
+    	res.render('home');
   	});
 
 router.get('/logout', function(req, res){
@@ -95,7 +95,7 @@ router.get('/logout', function(req, res){
 
 	req.flash('success_msg', 'You are logged out');
 
-	res.redirect('/home');
+	res.render('login');
 });
 
 module.exports = router;
