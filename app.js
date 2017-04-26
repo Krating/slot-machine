@@ -26,7 +26,7 @@ var mongoose = require('mongoose');
 var express = require('express');
 var router = express.Router();
 
-mongoose.connect('mongodb://localhost/slot-machine');
+mongoose.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine');
 var db = mongoose.connection;
 
 var routes = require('./routes/index');

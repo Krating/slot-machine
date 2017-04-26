@@ -65,16 +65,16 @@
 	  		if(response.status === 'connected') {
 	  			document.getElementById('status').innerHTML = 'We are connected';
 	  			FB.api('/me','GET',{fields: 'id,name,picture.width(150).height(150)'}, function(response) {
-	  	
+	  			// console.log(response);
 	  			
-	  	
+	  			//send data to serve
 	  			socket.emit('input', {
 							id:response.id,
 							name:response.name,
 							picture:response.picture.data.url
 						});
 
-
+	  			//data form server
 	  			socket.on('output',function(data){
 						document.getElementById('profile').innerHTML = data[0].id;
 					});
@@ -93,7 +93,7 @@
 	  function logout(){
 	  	FB.logout(function(response) {
 			  console.log('logout');
-
+			  // location.reload();
 			  document.getElementById('login').style.visibility = "visible";
 			  socket.emit('logout', {
 				id:"",
@@ -103,7 +103,15 @@
 		});
 	  }
 
+	  // function start() {
+	  // 	var num1 = Math.floor((Math.random() * 3) + 1);
+	  // 	var num2 = Math.floor((Math.random() * 3) + 1);
+	  // 	var num3 = Math.floor((Math.random() * 3) + 1);
+	  // 	var arraynum = [num1,num2,num3];
+	  // 	console.log(arraynum);
+	  // 	socket.emit('random', {arraynum:arraynum});
 
+	  // }
 
 	</script>
 
@@ -111,9 +119,9 @@
 </html>
 <script>
 	function start(){
-
+	  	// console.log('start');
 	  	socket.emit('getdata_rand');
-
+	  	// console.log('emit');
 	  	socket.once('data_rand',function(data){
 	  		
 	  		var rand = Math.floor((Math.random() * 100) + 1);
@@ -128,6 +136,13 @@
 	  			}
 	  		}
 
+	  		// if (data[0].chance>=rand && data[0].num_reward>0) {
+	  		// 	console.log(data[0].chance);
+	  		// 	console.log('data1');
+	  		// } if (data[1].chance>=rand && data[1].num_reward>0) {
+	  		// 	console.log(data[1].chance);
+	  		// 	console.log('data2');
+	  		// }
 	  	});
 	  }
 </script>
