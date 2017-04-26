@@ -52,7 +52,6 @@ router.post('/register', function(req, res){
 
 
 		res.render('login')};
-	}
 });
 
 passport.use(new LocalStrategy(
