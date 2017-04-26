@@ -185,4 +185,3 @@ mongo.connect('mongodb://admin:123123@ds161018.mlab.com:61018/slot-machine', fun
 		});
 	});
 });
-
