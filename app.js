@@ -36,7 +36,7 @@ app.set('view engine','ejs');
 
 app.use(express.static(__dirname + ''));
 
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 8080;
 server.listen(port);
 
 // BodyParser Middleware
