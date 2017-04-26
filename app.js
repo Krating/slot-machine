@@ -36,10 +36,10 @@ app.set('view engine','ejs');
 
 app.use(express.static(__dirname + ''));
 
-app.set('port', (process.env.PORT || 8081));
+var port = process.env.PORT || 8081;
 
-server.listen(app.get('port'), function(){
-	console.log('Server started on port '+app.get('port'));
+server.listen((port), function(){
+	console.log('Server started on port '+ port);
 });
 
 // BodyParser Middleware
